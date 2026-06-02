@@ -112,12 +112,13 @@ val buildKeyboardFont by tasks.registering(Exec::class) {
   workingDir = `in`
   val svgFiles = `in`.listFiles()!!.filter {
     it.isFile && it.name.endsWith(".svg")
-  }.toTypedArray()
+  }.map { it.name }.toTypedArray()
   commandLine("fontforge", "-lang=ff", "-script", "build.pe", out.asFile.absolutePath, *svgFiles)
 }
 
 val genEmojis by tasks.registering(Exec::class) {
   doFirst { println("\nGenerating res/raw/emojis.txt") }
+  environment("PYTHONUTF8", "1")
   workingDir = projectDir
   commandLine("python", "gen_emoji.py")
 }
@@ -126,6 +127,7 @@ val genLayoutsList by tasks.registering(Exec::class) {
   inputs.dir(projectDir.resolve("srcs/layouts"))
   outputs.file(projectDir.resolve("res/values/layouts.xml"))
   doFirst { println("\nGenerating res/values/layouts.xml") }
+  environment("PYTHONUTF8", "1")
   workingDir = projectDir
   commandLine("python", "gen_layouts.py")
 }
@@ -137,6 +139,7 @@ val genMethodXml by tasks.registering(Exec::class) {
   outputs.file(out)
   doFirst { println("\nGenerating res/xml/method.xml") }
   doFirst { standardOutput = FileOutputStream(out) }
+  environment("PYTHONUTF8", "1")
   workingDir = projectDir
   commandLine("python", "gen_method_xml.py")
 }
@@ -146,6 +149,7 @@ val checkKeyboardLayouts by tasks.registering(Exec::class) {
   inputs.file(projectDir.resolve("srcs/juloo.keyboard2/KeyValue.java"))
   outputs.file(projectDir.resolve("check_layout.output"))
   doFirst { println("\nChecking layouts") }
+  environment("PYTHONUTF8", "1")
   workingDir = projectDir
   commandLine("python", "check_layout.py")
 }
@@ -159,6 +163,7 @@ val compileComposeSequences by tasks.registering(Exec::class) {
   val sequences = `in`.listFiles { it: File ->
     !it.name.endsWith(".py") && !it.name.endsWith(".md")
   }!!.map { it.absolutePath }.toTypedArray()
+  environment("PYTHONUTF8", "1")
   workingDir = projectDir
   commandLine("python", `in`.resolve("compile.py").absolutePath, *sequences)
   doFirst { standardOutput = FileOutputStream(out) }
