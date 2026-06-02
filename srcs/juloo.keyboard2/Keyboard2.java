@@ -476,6 +476,10 @@ public class Keyboard2 extends InputMethodService
           VoiceImeSwitcher.choose_voice_ime(Keyboard2.this, get_imm(),
               Config.globalPrefs());
           break;
+
+        case ENCRYPT:
+        case DECRYPT:
+          break;
       }
     }
 

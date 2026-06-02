@@ -23,6 +23,19 @@ public class KeyValueTest
   }
 
   @Test
+  public void crypto_event_keys()
+  {
+    KeyValue encrypt = KeyValue.getSpecialKeyByName("encrypt");
+    KeyValue decrypt = KeyValue.getSpecialKeyByName("decrypt");
+    assertEquals(KeyValue.Kind.Event, encrypt.getKind());
+    assertEquals(KeyValue.Event.ENCRYPT, encrypt.getEvent());
+    assertTrue(encrypt.hasFlagsAny(KeyValue.FLAG_KEY_FONT));
+    assertEquals(KeyValue.Kind.Event, decrypt.getKind());
+    assertEquals(KeyValue.Event.DECRYPT, decrypt.getEvent());
+    assertTrue(decrypt.hasFlagsAny(KeyValue.FLAG_KEY_FONT));
+  }
+
+  @Test
   public void numpad_script()
   {
     assertEquals(apply_numpad_script("hindu-arabic"), "٠١٢٣٤٥٦٧٨٩");

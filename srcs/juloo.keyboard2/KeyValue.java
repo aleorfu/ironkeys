@@ -24,6 +24,8 @@ public final class KeyValue implements Comparable<KeyValue>
     CAPS_LOCK,
     SWITCH_VOICE_TYPING,
     SWITCH_VOICE_TYPING_CHOOSER,
+    ENCRYPT,
+    DECRYPT,
   }
 
   // Must be evaluated in the reverse order of their values.
@@ -643,6 +645,8 @@ public final class KeyValue implements Comparable<KeyValue>
       case "capslock": return eventKey(0xE012, Event.CAPS_LOCK, 0);
       case "voice_typing": return eventKey(0xE015, Event.SWITCH_VOICE_TYPING, FLAG_SMALLER_FONT);
       case "voice_typing_chooser": return VOICE_TYPING_CHOOSER;
+      case "encrypt": return eventKey(0xE01D, Event.ENCRYPT, 0);
+      case "decrypt": return eventKey(0xE01E, Event.DECRYPT, 0);
 
       /* Key events */
       case "esc": return keyeventKey("Esc", KeyEvent.KEYCODE_ESCAPE, FLAG_SMALLER_FONT);

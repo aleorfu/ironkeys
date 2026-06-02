@@ -189,6 +189,8 @@ Value                  | Meaning
 `action`               | Performs a special context-sensitive operation related to the Enter key. For example, in the Twitter (X) app, `enter` adds a new line, while `action` posts.
 `voice_typing`         | Begin voice typing.
 `voice_typing_chooser` | Shows a menu where you can choose which voice typing provider to use, then begins voice typing when you make a selection.
+`encrypt`              | Reserved for encrypting messages. Currently no action.
+`decrypt`              | Reserved for decrypting messages. Currently no action.
 `shareText`            | Emit a share Intent for the selected text. **Oddity:** This is in CamelCase.
 
 ## Unused
