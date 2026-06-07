@@ -66,4 +66,7 @@
   <PreferenceCategory android:title="@string/pref_category_clipboard">
     <ListPreference android:key="clipboard_history_duration" android:title="@string/pref_clipboard_history_duration" android:summary="%s" android:defaultValue="5" android:entries="@array/pref_clipboard_duration_entries" android:entryValues="@array/pref_clipboard_duration_values"/>
   </PreferenceCategory>
+  <PreferenceCategory android:title="@string/pref_category_ironkeys">
+    <PreferenceScreen android:key="ironkeys_private_keys_screen" android:title="@string/ironkeys_private_keys_title" android:summary="@string/ironkeys_private_keys_screen_summary"/>
+  </PreferenceCategory>
 </PreferenceScreen>
