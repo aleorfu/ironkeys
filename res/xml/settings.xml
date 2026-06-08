@@ -68,5 +68,6 @@
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/pref_category_ironkeys">
     <PreferenceScreen android:key="ironkeys_private_keys_screen" android:title="@string/ironkeys_private_keys_title" android:summary="@string/ironkeys_private_keys_screen_summary"/>
+    <PreferenceScreen android:key="ironkeys_public_keys_screen" android:title="@string/ironkeys_public_keys_title" android:summary="@string/ironkeys_public_keys_screen_summary"/>
   </PreferenceCategory>
 </PreferenceScreen>
