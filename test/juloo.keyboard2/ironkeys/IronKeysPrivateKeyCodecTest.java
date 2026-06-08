@@ -27,6 +27,21 @@ public class IronKeysPrivateKeyCodecTest
   }
 
   @Test
+  public void backup_round_trip_preserves_export_order_without_selected_key()
+      throws Exception
+  {
+    IronKeysPrivateKey first = _generator.generate("First");
+    IronKeysPrivateKey second = _generator.generate("Second");
+
+    List<IronKeysPrivateKey> decoded = _codec.decodeImport(
+        _codec.encodeBackup(Arrays.asList(first, second), null));
+
+    assertEquals(2, decoded.size());
+    assertKeyEquals(first, decoded.get(0));
+    assertKeyEquals(second, decoded.get(1));
+  }
+
+  @Test
   public void local_keys_round_trip() throws Exception
   {
     IronKeysPrivateKey privateKey = _generator.generate("Local");

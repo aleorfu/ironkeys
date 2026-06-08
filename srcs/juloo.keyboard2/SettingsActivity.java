@@ -38,6 +38,7 @@ public class SettingsActivity extends PreferenceActivity
   private static final int REQUEST_IRONKEYS_SCAN_PUBLIC_KEY = 1403;
   private static final int REQUEST_IRONKEYS_EXPORT_PUBLIC_KEYS = 1404;
   private static final int REQUEST_IRONKEYS_IMPORT_PUBLIC_KEYS = 1405;
+  private static final int REQUEST_IRONKEYS_EXPORT_PRIVATE_KEYS = 1406;
   private static final String STATE_PENDING_IRONKEYS_EXPORT_KEY_ID =
       "pending_ironkeys_export_key_id";
   private static final int MAX_IRONKEYS_PRIVATE_KEY_IMPORT_BYTES =
@@ -117,6 +118,14 @@ public class SettingsActivity extends PreferenceActivity
         finishIronKeysPrivateKeyExport(data.getData());
       else
         _pendingIronKeysExportKeyId = null;
+      return;
+    }
+
+    if (requestCode == REQUEST_IRONKEYS_EXPORT_PRIVATE_KEYS)
+    {
+      if (resultCode == Activity.RESULT_OK && data != null &&
+          data.getData() != null)
+        finishIronKeysPrivateKeysExport(data.getData());
       return;
     }
 
@@ -206,6 +215,21 @@ public class SettingsActivity extends PreferenceActivity
     });
     importCategory.addPreference(importPreference);
 
+    Preference exportPreference = new Preference(this);
+    exportPreference.setPersistent(false);
+    exportPreference.setEnabled(false);
+    exportPreference.setTitle(R.string.ironkeys_export_private_keys);
+    exportPreference.setSummary(R.string.ironkeys_export_private_keys_summary);
+    exportPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+      @Override
+      public boolean onPreferenceClick(Preference _preference)
+      {
+        confirmIronKeysPrivateKeysExport();
+        return true;
+      }
+    });
+    importCategory.addPreference(exportPreference);
+
     PreferenceCategory keyListCategory = new PreferenceCategory(this);
     keyListCategory.setTitle(R.string.ironkeys_private_keys_list_category);
     _ironKeysPrivateKeysScreen.addPreference(keyListCategory);
@@ -215,12 +239,15 @@ public class SettingsActivity extends PreferenceActivity
       List<IronKeysPrivateKey> privateKeys = ironKeysPrivateKeyStore().load();
       if (privateKeys.isEmpty())
       {
+        exportPreference.setSummary(
+            R.string.ironkeys_export_private_keys_empty_summary);
         addDisabledIronKeysPreference(
             keyListCategory,
             R.string.ironkeys_no_private_keys_title,
             R.string.ironkeys_no_private_keys_summary);
         return;
       }
+      exportPreference.setEnabled(true);
 
       for (final IronKeysPrivateKey privateKey : privateKeys)
       {
@@ -443,6 +470,17 @@ public class SettingsActivity extends PreferenceActivity
       .show();
   }
 
+  private void confirmIronKeysPrivateKeysExport()
+  {
+    new AlertDialog.Builder(this)
+      .setTitle(R.string.ironkeys_export_private_keys)
+      .setMessage(R.string.ironkeys_export_private_keys_warning)
+      .setPositiveButton(R.string.ironkeys_export_private_keys,
+          (dialog, _which) -> startIronKeysPrivateKeysExport())
+      .setNegativeButton(android.R.string.cancel, null)
+      .show();
+  }
+
   private void confirmIronKeysPrivateKeyDelete(final IronKeysPrivateKey privateKey)
   {
     new AlertDialog.Builder(this)
@@ -481,6 +519,15 @@ public class SettingsActivity extends PreferenceActivity
     startActivityForResult(intent, REQUEST_IRONKEYS_EXPORT_PRIVATE_KEY);
   }
 
+  private void startIronKeysPrivateKeysExport()
+  {
+    Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+    intent.addCategory(Intent.CATEGORY_OPENABLE);
+    intent.setType("application/octet-stream");
+    intent.putExtra(Intent.EXTRA_TITLE, IronKeysPrivateKeyStore.BACKUP_FILE_NAME);
+    startActivityForResult(intent, REQUEST_IRONKEYS_EXPORT_PRIVATE_KEYS);
+  }
+
   private void finishIronKeysPrivateKeyExport(Uri uri)
   {
     final String privateKeyId = _pendingIronKeysExportKeyId;
@@ -500,6 +547,20 @@ public class SettingsActivity extends PreferenceActivity
       });
     }, () -> {
       Toast.makeText(this, R.string.ironkeys_private_key_export_failed,
+          Toast.LENGTH_LONG).show();
+    });
+  }
+
+  private void finishIronKeysPrivateKeysExport(Uri uri)
+  {
+    runIronKeysBackgroundTask("IronKeys-export-private-keys", () -> {
+      writeText(uri, ironKeysPrivateKeyStore().exportKeysBackup());
+      runIronKeysUiUpdate(() -> {
+        Toast.makeText(this, R.string.ironkeys_private_keys_exported,
+            Toast.LENGTH_LONG).show();
+      });
+    }, () -> {
+      Toast.makeText(this, R.string.ironkeys_private_keys_export_failed,
           Toast.LENGTH_LONG).show();
     });
   }

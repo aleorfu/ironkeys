@@ -13,6 +13,8 @@ import java.util.Set;
 
 public final class IronKeysPrivateKeyStore
 {
+  public static final String BACKUP_FILE_NAME = "ironkeys-private-keys.ikb";
+
   private static final String PREFERENCES_NAME = "ironkeys_private_keys";
   private static final String KEY_ENCRYPTED_PRIVATE_KEYS = "encrypted_private_keys";
   private static final Object MUTATION_LOCK = new Object();
@@ -108,6 +110,15 @@ public final class IronKeysPrivateKeyStore
     List<IronKeysPrivateKey> keys = new ArrayList<IronKeysPrivateKey>();
     keys.add(privateKey);
     return _codec.encodeBackup(keys, privateKey.id);
+  }
+
+  public String exportKeysBackup() throws GeneralSecurityException
+  {
+    List<IronKeysPrivateKey> keys = load();
+    if (keys.isEmpty())
+      throw new GeneralSecurityException(
+          "No IronKeys private keys to export.");
+    return _codec.encodeBackup(keys, null);
   }
 
   private void save(List<IronKeysPrivateKey> keys)
