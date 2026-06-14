@@ -136,6 +136,17 @@
     <string name="ironkeys_encrypt_failed_with_reason">Message could not be encrypted: %1$s</string>
     <string name="ironkeys_encrypt_no_input_connection">No external text field is available.</string>
     <string name="ironkeys_encrypt_inserted">Encrypted message inserted.</string>
+    <string name="ironkeys_decrypt_result_hint">Decrypted message</string>
+    <string name="ironkeys_decrypt_ciphertext_hint">Paste encrypted message</string>
+    <string name="ironkeys_decrypt_button">Decrypt</string>
+    <string name="ironkeys_decrypt_back_button">Back</string>
+    <string name="ironkeys_decrypt_empty_message">Paste an encrypted message before decrypting.</string>
+    <string name="ironkeys_decrypt_invalid_message">This is not a valid IronKeys message.</string>
+    <string name="ironkeys_decrypt_no_private_keys">No private keys are saved.</string>
+    <string name="ironkeys_decrypt_no_matching_private_key">Missing private key for this message.</string>
+    <string name="ironkeys_decrypt_failed">Message could not be decrypted.</string>
+    <string name="ironkeys_decrypt_failed_with_reason">Message could not be decrypted: %1$s</string>
+    <string name="ironkeys_decrypt_complete">Message decrypted.</string>
     <string name="key_descr_copy">Copy</string>
     <string name="key_descr_paste">Paste</string>
     <string name="key_descr_cut">Cut</string>

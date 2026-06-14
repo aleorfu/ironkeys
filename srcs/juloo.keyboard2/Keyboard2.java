@@ -37,6 +37,7 @@ import juloo.cdict.Cdict;
 import juloo.keyboard2.dict.Dictionaries;
 import juloo.keyboard2.dict.DictionariesActivity;
 import juloo.keyboard2.ironkeys.IronKeysMessageCipher;
+import juloo.keyboard2.ironkeys.IronKeysMessageDecryptor;
 import juloo.keyboard2.ironkeys.IronKeysPrivateKey;
 import juloo.keyboard2.ironkeys.IronKeysPrivateKeyStore;
 import juloo.keyboard2.ironkeys.IronKeysPublicKey;
@@ -65,14 +66,26 @@ public class Keyboard2 extends InputMethodService
   private IronKeysEncryptionKeySelectionView _ironKeysEncryptKeysView = null;
   private ViewGroup _ironKeysEncryptBar = null;
   private EditText _ironKeysEncryptText = null;
+  private TextView _ironKeysDecryptResultText = null;
   private Button _ironKeysEncryptKeysButton = null;
   private ProgressBar _ironKeysEncryptProgress = null;
+  private ViewGroup _ironKeysDecryptPane = null;
+  private EditText _ironKeysDecryptText = null;
+  private Button _ironKeysDecryptSubmitButton = null;
+  private Button _ironKeysDecryptBackButton = null;
+  private ProgressBar _ironKeysDecryptProgress = null;
+  private int _ironKeysDecryptPaneBasePaddingBottom = 0;
   private boolean _ironKeysEncryptMode = false;
+  private boolean _ironKeysDecryptMode = false;
   private boolean _ironKeysEncryptKeysPaneShown = false;
   private boolean _ironKeysEncrypting = false;
+  private boolean _ironKeysDecrypting = false;
   private int _ironKeysInputSessionId = 0;
   private int _ironKeysEncryptOperationId = 0;
+  private int _ironKeysDecryptOperationId = 0;
   private String _ironKeysDraftText = "";
+  private String _ironKeysDecryptCiphertext = "";
+  private String _ironKeysDecryptedText = "";
   private String _ironKeysSelectedPrivateKeyId = null;
   private Set<String> _ironKeysSelectedPublicKeyIds = new HashSet<String>();
   private Handler _handler;
@@ -179,13 +192,29 @@ public class Keyboard2 extends InputMethodService
         R.id.ironkeys_encrypt_bar);
     _ironKeysEncryptText = (EditText)_keyboard_container_view.findViewById(
         R.id.ironkeys_encrypt_text);
+    _ironKeysDecryptResultText = (TextView)_keyboard_container_view
+        .findViewById(R.id.ironkeys_decrypt_result_text);
     _ironKeysEncryptKeysButton = (Button)_keyboard_container_view.findViewById(
         R.id.ironkeys_encrypt_keys_button);
     _ironKeysEncryptProgress = (ProgressBar)_keyboard_container_view.findViewById(
         R.id.ironkeys_encrypt_progress);
+    _ironKeysDecryptPane = (ViewGroup)_keyboard_container_view.findViewById(
+        R.id.ironkeys_decrypt_pane);
+    _ironKeysDecryptText = (EditText)_keyboard_container_view.findViewById(
+        R.id.ironkeys_decrypt_text);
+    _ironKeysDecryptSubmitButton = (Button)_keyboard_container_view.findViewById(
+        R.id.ironkeys_decrypt_submit_button);
+    _ironKeysDecryptBackButton = (Button)_keyboard_container_view.findViewById(
+        R.id.ironkeys_decrypt_back_button);
+    _ironKeysDecryptProgress = (ProgressBar)_keyboard_container_view.findViewById(
+        R.id.ironkeys_decrypt_progress);
     init_ironkeys_encrypt_bar();
+    init_ironkeys_decrypt_pane();
+    init_ironkeys_decrypt_pane_insets();
     refresh_ironkeys_encrypt_bar_visibility();
     refresh_ironkeys_encrypt_busy_state();
+    refresh_ironkeys_decrypt_pane_visibility();
+    refresh_ironkeys_decrypt_busy_state();
   }
 
   private void init_ironkeys_encrypt_bar()
@@ -237,6 +266,79 @@ public class Keyboard2 extends InputMethodService
         toggle_ironkeys_encrypt_keys_pane();
       }
     });
+  }
+
+  private void init_ironkeys_decrypt_pane()
+  {
+    if (_ironKeysDecryptText == null ||
+        _ironKeysDecryptSubmitButton == null ||
+        _ironKeysDecryptBackButton == null)
+      return;
+    _ironKeysDecryptText.setText(_ironKeysDecryptCiphertext);
+    _ironKeysDecryptText.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence _s, int _start, int _count,
+          int _after) {}
+
+      @Override
+      public void onTextChanged(CharSequence s, int _start, int _before,
+          int _count)
+      {
+        _ironKeysDecryptCiphertext = s.toString();
+      }
+
+      @Override
+      public void afterTextChanged(Editable _s) {}
+    });
+    _ironKeysDecryptSubmitButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View _view)
+      {
+        submit_ironkeys_decrypted_message();
+      }
+    });
+    _ironKeysDecryptBackButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View _view)
+      {
+        set_ironkeys_decrypt_mode(false, true);
+      }
+    });
+    refresh_ironkeys_decrypt_result_text();
+  }
+
+  private void init_ironkeys_decrypt_pane_insets()
+  {
+    if (_ironKeysDecryptPane == null)
+      return;
+    _ironKeysDecryptPaneBasePaddingBottom =
+        _ironKeysDecryptPane.getPaddingBottom();
+    if (VERSION.SDK_INT < 35)
+      return;
+    _ironKeysDecryptPane.setOnApplyWindowInsetsListener(
+        new View.OnApplyWindowInsetsListener() {
+      @Override
+      public WindowInsets onApplyWindowInsets(View _view, WindowInsets wi)
+      {
+        int insetsTypes =
+            WindowInsets.Type.systemBars() |
+            WindowInsets.Type.displayCutout();
+        android.graphics.Insets insets = wi.getInsets(insetsTypes);
+        set_ironkeys_decrypt_pane_bottom_inset(insets.bottom);
+        return wi;
+      }
+    });
+  }
+
+  private void set_ironkeys_decrypt_pane_bottom_inset(int bottomInset)
+  {
+    if (_ironKeysDecryptPane == null)
+      return;
+    _ironKeysDecryptPane.setPadding(
+        _ironKeysDecryptPane.getPaddingLeft(),
+        _ironKeysDecryptPane.getPaddingTop(),
+        _ironKeysDecryptPane.getPaddingRight(),
+        _ironKeysDecryptPaneBasePaddingBottom + Math.max(0, bottomInset));
   }
 
   InputMethodManager get_imm()
@@ -329,7 +431,7 @@ public class Keyboard2 extends InputMethodService
   public void onStartInput(EditorInfo attribute, boolean restarting)
   {
     super.onStartInput(attribute, restarting);
-    invalidate_ironkeys_encrypt_operation();
+    invalidate_ironkeys_operations();
   }
 
   @Override
@@ -341,6 +443,7 @@ public class Keyboard2 extends InputMethodService
     _keyboard_layout_view.setKeyboard(current_layout());
     _keyeventhandler.started(_config);
     set_ironkeys_encrypt_mode(false);
+    set_ironkeys_decrypt_mode(false, true);
     setInputView(_keyboard_container_view);
     Logs.debug_startup_input_view(info, _config);
   }
@@ -445,19 +548,49 @@ public class Keyboard2 extends InputMethodService
   public void onFinishInputView(boolean finishingInput)
   {
     super.onFinishInputView(finishingInput);
-    invalidate_ironkeys_encrypt_operation();
+    invalidate_ironkeys_operations();
     _keyboard_layout_view.reset();
     set_ironkeys_encrypt_mode(false);
+    set_ironkeys_decrypt_mode(false, true);
   }
 
   private void set_ironkeys_encrypt_mode(boolean enabled)
   {
+    if (enabled && _ironKeysDecryptMode)
+      set_ironkeys_decrypt_mode(false, true);
     _ironKeysEncryptMode = enabled;
+    if (!enabled && _ironKeysEncrypting)
+      invalidate_ironkeys_operations();
     if (!enabled && _ironKeysEncryptKeysPaneShown)
       close_ironkeys_encrypt_keys_pane();
     refresh_ironkeys_encrypt_bar_visibility();
+    refresh_ironkeys_encrypt_busy_state();
     if (enabled && _ironKeysEncryptText != null)
       _ironKeysEncryptText.requestFocus();
+  }
+
+  private void set_ironkeys_decrypt_mode(boolean enabled,
+      boolean clearFields)
+  {
+    _ironKeysDecryptMode = enabled;
+    if (enabled)
+    {
+      set_ironkeys_encrypt_mode(false);
+      setInputView(_keyboard_container_view);
+      if (_ironKeysDecryptText != null)
+        _ironKeysDecryptText.requestFocus();
+    }
+    else
+    {
+      if (_ironKeysDecrypting)
+        invalidate_ironkeys_operations();
+      if (clearFields)
+        clear_ironkeys_decrypt_fields();
+    }
+    refresh_ironkeys_encrypt_bar_visibility();
+    refresh_ironkeys_encrypt_busy_state();
+    refresh_ironkeys_decrypt_pane_visibility();
+    refresh_ironkeys_decrypt_busy_state();
   }
 
   private void toggle_ironkeys_encrypt_mode()
@@ -475,7 +608,33 @@ public class Keyboard2 extends InputMethodService
     if (_ironKeysEncryptBar == null)
       return;
     _ironKeysEncryptBar.setVisibility(
-        _ironKeysEncryptMode ? View.VISIBLE : View.GONE);
+        (_ironKeysEncryptMode || _ironKeysDecryptMode) ?
+        View.VISIBLE : View.GONE);
+    if (_ironKeysEncryptText != null)
+      _ironKeysEncryptText.setVisibility(
+          _ironKeysEncryptMode ? View.VISIBLE : View.GONE);
+    if (_ironKeysDecryptResultText != null)
+      _ironKeysDecryptResultText.setVisibility(
+          _ironKeysDecryptMode ? View.VISIBLE : View.GONE);
+  }
+
+  private void refresh_ironkeys_decrypt_pane_visibility()
+  {
+    if (_keyboard_layout_view != null)
+      _keyboard_layout_view.setVisibility(
+          _ironKeysDecryptMode ? View.GONE : View.VISIBLE);
+    if (_ironKeysDecryptPane != null)
+    {
+      _ironKeysDecryptPane.setVisibility(
+          _ironKeysDecryptMode ? View.VISIBLE : View.GONE);
+      if (_ironKeysDecryptMode)
+        _ironKeysDecryptPane.requestApplyInsets();
+    }
+  }
+
+  private void toggle_ironkeys_decrypt_mode()
+  {
+    set_ironkeys_decrypt_mode(!_ironKeysDecryptMode, true);
   }
 
   private void toggle_ironkeys_encrypt_keys_pane()
@@ -769,6 +928,70 @@ public class Keyboard2 extends InputMethodService
     }, "IronKeys-encrypt-message").start();
   }
 
+  private void submit_ironkeys_decrypted_message()
+  {
+    if (_ironKeysDecrypting)
+      return;
+    final String ciphertext = _ironKeysDecryptCiphertext == null ?
+        "" : _ironKeysDecryptCiphertext.trim();
+    if (ciphertext.length() == 0)
+    {
+      set_ironkeys_decrypt_result(
+          getString(R.string.ironkeys_decrypt_empty_message));
+      show_toast(R.string.ironkeys_decrypt_empty_message);
+      return;
+    }
+    if (!IronKeysPrivateKeyStore.isKeystoreSupported())
+    {
+      set_ironkeys_decrypt_result(getString(
+          R.string.ironkeys_private_keys_android_version_unavailable));
+      show_toast(R.string.ironkeys_private_keys_android_version_unavailable);
+      return;
+    }
+    if (!IronKeysPrivateKeyStore.isAvailable(this))
+    {
+      set_ironkeys_decrypt_result(getString(
+          R.string.ironkeys_private_keys_locked_unavailable));
+      show_toast(R.string.ironkeys_private_keys_locked_unavailable);
+      return;
+    }
+    final int inputSessionId = _ironKeysInputSessionId;
+    final int operationId = ++_ironKeysDecryptOperationId;
+    _ironKeysDecrypting = true;
+    refresh_ironkeys_decrypt_busy_state();
+    new Thread(new Runnable() {
+      @Override
+      public void run()
+      {
+        try
+        {
+          final IronKeysMessageDecryptor.Result result =
+              new IronKeysMessageDecryptor().decryptWithAnyPrivateKey(
+                  ciphertext, new IronKeysPrivateKeyStore(
+                      Keyboard2.this).load());
+          _handler.post(new Runnable() {
+            @Override
+            public void run()
+            {
+              finish_ironkeys_decrypt_result(operationId, inputSessionId,
+                  result);
+            }
+          });
+        }
+        catch (final Exception e)
+        {
+          _handler.post(new Runnable() {
+            @Override
+            public void run()
+            {
+              finish_ironkeys_decrypt_failure(operationId, inputSessionId, e);
+            }
+          });
+        }
+      }
+    }, "IronKeys-decrypt-message").start();
+  }
+
   private IronKeysPrivateKey find_ironkeys_private_key(String privateKeyId)
       throws GeneralSecurityException
   {
@@ -824,14 +1047,49 @@ public class Keyboard2 extends InputMethodService
     show_ironkeys_encrypt_failure(e);
   }
 
-  private void invalidate_ironkeys_encrypt_operation()
+  private void finish_ironkeys_decrypt_result(int operationId,
+      int inputSessionId, IronKeysMessageDecryptor.Result result)
+  {
+    if (!is_current_ironkeys_decrypt_operation(operationId, inputSessionId))
+      return;
+    _ironKeysDecrypting = false;
+    refresh_ironkeys_decrypt_busy_state();
+    if (result.status == IronKeysMessageDecryptor.Status.SUCCESS)
+    {
+      set_ironkeys_decrypt_result(result.plaintext);
+      show_toast(R.string.ironkeys_decrypt_complete);
+      return;
+    }
+    set_ironkeys_decrypt_result(ironkeys_decrypt_status_message(result));
+    show_ironkeys_decrypt_status(result);
+  }
+
+  private void finish_ironkeys_decrypt_failure(int operationId,
+      int inputSessionId, Exception e)
+  {
+    if (!is_current_ironkeys_decrypt_operation(operationId, inputSessionId))
+      return;
+    _ironKeysDecrypting = false;
+    refresh_ironkeys_decrypt_busy_state();
+    set_ironkeys_decrypt_result(ironkeys_decrypt_failure_message(e));
+    Logs.exn("IronKeys message decryption failed", e);
+    show_ironkeys_decrypt_failure(e);
+  }
+
+  private void invalidate_ironkeys_operations()
   {
     _ironKeysInputSessionId++;
     _ironKeysEncryptOperationId++;
+    _ironKeysDecryptOperationId++;
     if (_ironKeysEncrypting)
     {
       _ironKeysEncrypting = false;
       refresh_ironkeys_encrypt_busy_state();
+    }
+    if (_ironKeysDecrypting)
+    {
+      _ironKeysDecrypting = false;
+      refresh_ironkeys_decrypt_busy_state();
     }
   }
 
@@ -843,6 +1101,14 @@ public class Keyboard2 extends InputMethodService
         _ironKeysInputSessionId == inputSessionId;
   }
 
+  private boolean is_current_ironkeys_decrypt_operation(int operationId,
+      int inputSessionId)
+  {
+    return _ironKeysDecrypting &&
+        _ironKeysDecryptOperationId == operationId &&
+        _ironKeysInputSessionId == inputSessionId;
+  }
+
   private void refresh_ironkeys_encrypt_busy_state()
   {
     if (_ironKeysEncryptText != null)
@@ -851,11 +1117,30 @@ public class Keyboard2 extends InputMethodService
     {
       _ironKeysEncryptKeysButton.setEnabled(!_ironKeysEncrypting);
       _ironKeysEncryptKeysButton.setVisibility(
-          _ironKeysEncrypting ? View.GONE : View.VISIBLE);
+          (_ironKeysEncryptMode && !_ironKeysEncrypting) ?
+          View.VISIBLE : View.GONE);
     }
     if (_ironKeysEncryptProgress != null)
       _ironKeysEncryptProgress.setVisibility(
-          _ironKeysEncrypting ? View.VISIBLE : View.GONE);
+          (_ironKeysEncryptMode && _ironKeysEncrypting) ?
+          View.VISIBLE : View.GONE);
+  }
+
+  private void refresh_ironkeys_decrypt_busy_state()
+  {
+    if (_ironKeysDecryptText != null)
+      _ironKeysDecryptText.setEnabled(!_ironKeysDecrypting);
+    if (_ironKeysDecryptSubmitButton != null)
+    {
+      _ironKeysDecryptSubmitButton.setEnabled(!_ironKeysDecrypting);
+      _ironKeysDecryptSubmitButton.setVisibility(
+          _ironKeysDecrypting ? View.GONE : View.VISIBLE);
+    }
+    if (_ironKeysDecryptBackButton != null)
+      _ironKeysDecryptBackButton.setEnabled(true);
+    if (_ironKeysDecryptProgress != null)
+      _ironKeysDecryptProgress.setVisibility(
+          _ironKeysDecrypting ? View.VISIBLE : View.GONE);
   }
 
   private void show_toast(int resId)
@@ -872,6 +1157,72 @@ public class Keyboard2 extends InputMethodService
       message = getString(R.string.ironkeys_encrypt_failed_with_reason,
           message);
     Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+  }
+
+  private void show_ironkeys_decrypt_status(
+      IronKeysMessageDecryptor.Result result)
+  {
+    if (result.status == IronKeysMessageDecryptor.Status.DECRYPTION_FAILED &&
+        result.exception != null)
+    {
+      show_ironkeys_decrypt_failure(result.exception);
+      return;
+    }
+    Toast.makeText(this, ironkeys_decrypt_status_message(result),
+        Toast.LENGTH_LONG).show();
+  }
+
+  private String ironkeys_decrypt_status_message(
+      IronKeysMessageDecryptor.Result result)
+  {
+    switch (result.status)
+    {
+      case INVALID_MESSAGE:
+        return getString(R.string.ironkeys_decrypt_invalid_message);
+      case NO_PRIVATE_KEYS:
+        return getString(R.string.ironkeys_decrypt_no_private_keys);
+      case NO_MATCHING_PRIVATE_KEY:
+        return getString(R.string.ironkeys_decrypt_no_matching_private_key);
+      case DECRYPTION_FAILED:
+        return getString(R.string.ironkeys_decrypt_failed);
+      case SUCCESS:
+        return "";
+    }
+    return getString(R.string.ironkeys_decrypt_failed);
+  }
+
+  private void show_ironkeys_decrypt_failure(Exception e)
+  {
+    Toast.makeText(this, ironkeys_decrypt_failure_message(e),
+        Toast.LENGTH_LONG).show();
+  }
+
+  private String ironkeys_decrypt_failure_message(Exception e)
+  {
+    String message = e == null ? null : e.getMessage();
+    if (message == null || message.trim().isEmpty())
+      return getString(R.string.ironkeys_decrypt_failed);
+    return getString(R.string.ironkeys_decrypt_failed_with_reason, message);
+  }
+
+  private void set_ironkeys_decrypt_result(String plaintext)
+  {
+    _ironKeysDecryptedText = plaintext == null ? "" : plaintext;
+    refresh_ironkeys_decrypt_result_text();
+  }
+
+  private void refresh_ironkeys_decrypt_result_text()
+  {
+    if (_ironKeysDecryptResultText != null)
+      _ironKeysDecryptResultText.setText(_ironKeysDecryptedText);
+  }
+
+  private void clear_ironkeys_decrypt_fields()
+  {
+    _ironKeysDecryptCiphertext = "";
+    set_ironkeys_decrypt_result("");
+    if (_ironKeysDecryptText != null)
+      _ironKeysDecryptText.setText("");
   }
 
   private static String trim_ironkeys_encrypt_text(String text)
@@ -1037,6 +1388,7 @@ public class Keyboard2 extends InputMethodService
           break;
 
         case DECRYPT:
+          toggle_ironkeys_decrypt_mode();
           break;
       }
     }

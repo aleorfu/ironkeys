@@ -122,6 +122,17 @@
     <string name="key_descr_voice_typing">Dictado por voz</string>
     <string name="key_descr_encrypt">Cifrar mensaje</string>
     <string name="key_descr_decrypt">Descifrar mensaje</string>
+    <string name="ironkeys_decrypt_result_hint">Mensaje descifrado</string>
+    <string name="ironkeys_decrypt_ciphertext_hint">Pega el mensaje cifrado</string>
+    <string name="ironkeys_decrypt_button">Descifrar</string>
+    <string name="ironkeys_decrypt_back_button">Volver</string>
+    <string name="ironkeys_decrypt_empty_message">Pega un mensaje cifrado antes de descifrar.</string>
+    <string name="ironkeys_decrypt_invalid_message">Este no es un mensaje de IronKeys valido.</string>
+    <string name="ironkeys_decrypt_no_private_keys">No hay claves privadas guardadas.</string>
+    <string name="ironkeys_decrypt_no_matching_private_key">No tienes la clave para este mensaje.</string>
+    <string name="ironkeys_decrypt_failed">No se pudo descifrar el mensaje.</string>
+    <string name="ironkeys_decrypt_failed_with_reason">No se pudo descifrar el mensaje: %1$s</string>
+    <string name="ironkeys_decrypt_complete">Mensaje descifrado.</string>
     <string name="key_descr_copy">Copiar</string>
     <string name="key_descr_paste">Pegar</string>
     <string name="key_descr_cut">Cortar</string>
