@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:hardwareAccelerated="false" android:orientation="vertical" android:background="?attr/colorKeyboard">
+  <LinearLayout android:id="@+id/ironkeys_encrypt_bar" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:visibility="gone" android:paddingStart="8dp" android:paddingEnd="8dp" android:paddingTop="6dp" android:paddingBottom="2dp">
+    <EditText android:id="@+id/ironkeys_encrypt_text" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:singleLine="true" android:maxLength="32" android:imeOptions="actionDone" android:inputType="textCapSentences|textNoSuggestions" android:hint="@string/ironkeys_encrypt_message_hint" android:background="@drawable/suggestions_item_background" android:textColor="?attr/colorLabel" android:textColorHint="?attr/colorSubLabel" android:paddingStart="10dp" android:paddingEnd="10dp"/>
+    <Button android:id="@+id/ironkeys_encrypt_keys_button" android:layout_width="72dp" android:layout_height="40dp" android:layout_marginStart="8dp" android:text="@string/ironkeys_encrypt_keys_button" android:contentDescription="@string/ironkeys_encrypt_keys_button" android:textColor="?attr/colorLabel" android:background="@drawable/suggestions_item_background"/>
+    <ProgressBar android:id="@+id/ironkeys_encrypt_progress" android:layout_width="72dp" android:layout_height="40dp" android:layout_marginStart="8dp" android:indeterminate="true" android:visibility="gone"/>
+  </LinearLayout>
   <juloo.keyboard2.suggestions.CandidatesView android:id="@+id/candidates_view" style="@style/candidates_view">
     <TextView android:id="@+id/candidates_emoji" style="@style/candidates_emoji"/>
     <TextView android:id="@+id/candidates_left" style="@style/candidates_item"/>

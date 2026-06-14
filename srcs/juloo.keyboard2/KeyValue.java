@@ -26,6 +26,7 @@ public final class KeyValue implements Comparable<KeyValue>
     SWITCH_VOICE_TYPING_CHOOSER,
     ENCRYPT,
     DECRYPT,
+    SWITCH_BACK_IRONKEYS_ENCRYPT,
   }
 
   // Must be evaluated in the reverse order of their values.
@@ -647,6 +648,7 @@ public final class KeyValue implements Comparable<KeyValue>
       case "voice_typing_chooser": return VOICE_TYPING_CHOOSER;
       case "encrypt": return eventKey(0xE01D, Event.ENCRYPT, 0);
       case "decrypt": return eventKey(0xE01E, Event.DECRYPT, 0);
+      case "switch_back_ironkeys_encrypt": return eventKey("ABC", Event.SWITCH_BACK_IRONKEYS_ENCRYPT, 0);
 
       /* Key events */
       case "esc": return keyeventKey("Esc", KeyEvent.KEYCODE_ESCAPE, FLAG_SMALLER_FONT);

@@ -108,6 +108,12 @@ public final class KeyEventHandler
     _next_last_action = LastAction.OTHER;
     Pointers.Modifiers old_mods = _mods;
     update_meta_state(mods);
+    if (_recv.handle_internal_text_key(key))
+    {
+      update_meta_state(old_mods);
+      _last_action = _next_last_action;
+      return;
+    }
     switch (key.getKind())
     {
       case Char: send_text(String.valueOf(key.getChar())); break;
@@ -562,6 +568,7 @@ public final class KeyEventHandler
     public void set_shift_state(boolean state, boolean lock);
     public void set_compose_pending(boolean pending);
     public void selection_state_changed(boolean selection_is_ongoing);
+    public boolean handle_internal_text_key(KeyValue key);
     public InputConnection getCurrentInputConnection();
     public Handler getHandler();
   }
