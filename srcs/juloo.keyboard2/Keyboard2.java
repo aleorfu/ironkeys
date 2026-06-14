@@ -221,7 +221,7 @@ public class Keyboard2 extends InputMethodService
   {
     if (_ironKeysEncryptText == null || _ironKeysEncryptKeysButton == null)
       return;
-    _ironKeysDraftText = trim_ironkeys_encrypt_text(_ironKeysDraftText);
+    _ironKeysDraftText = IronKeysDraftText.trim(_ironKeysDraftText);
     _ironKeysEncryptText.setText(_ironKeysDraftText);
     _ironKeysEncryptText.addTextChangedListener(new TextWatcher() {
       @Override
@@ -232,14 +232,15 @@ public class Keyboard2 extends InputMethodService
       public void onTextChanged(CharSequence s, int _start, int _before,
           int _count)
       {
-        _ironKeysDraftText = trim_ironkeys_encrypt_text(s.toString());
+        _ironKeysDraftText = IronKeysDraftText.trim(s.toString());
       }
 
       @Override
       public void afterTextChanged(Editable s)
       {
-        if (s.length() > IronKeysMessageCipher.MAX_PLAINTEXT_CHARS)
-          s.delete(IronKeysMessageCipher.MAX_PLAINTEXT_CHARS, s.length());
+        String trimmed = IronKeysDraftText.trim(s.toString());
+        if (!trimmed.contentEquals(s))
+          s.replace(0, s.length(), trimmed);
       }
     });
     _ironKeysEncryptText.setOnEditorActionListener(
@@ -777,82 +778,46 @@ public class Keyboard2 extends InputMethodService
 
   private void insert_ironkeys_encrypt_text(String text)
   {
-    if (text == null || text.length() == 0)
-      return;
     Editable editable = _ironKeysEncryptText.getText();
-    int start = normalized_ironkeys_encrypt_selection_start(editable);
-    int end = normalized_ironkeys_encrypt_selection_end(editable);
-    int replacementBudget = IronKeysMessageCipher.MAX_PLAINTEXT_CHARS -
-        (editable.length() - (end - start));
-    if (replacementBudget <= 0)
-      return;
-    editable.replace(start, end,
-        trim_ironkeys_encrypt_text(text, replacementBudget));
+    apply_ironkeys_encrypt_edit_result(editable, IronKeysDraftText.insert(
+        editable.toString(),
+        _ironKeysEncryptText.getSelectionStart(),
+        _ironKeysEncryptText.getSelectionEnd(),
+        text));
   }
 
   private void delete_ironkeys_encrypt_text_before_cursor()
   {
     Editable editable = _ironKeysEncryptText.getText();
-    int start = normalized_ironkeys_encrypt_selection_start(editable);
-    int end = normalized_ironkeys_encrypt_selection_end(editable);
-    if (start != end)
-    {
-      editable.delete(start, end);
-      return;
-    }
-    if (start <= 0)
-      return;
-    int deleteStart = start - 1;
-    if (deleteStart > 0 &&
-        Character.isLowSurrogate(editable.charAt(deleteStart)) &&
-        Character.isHighSurrogate(editable.charAt(deleteStart - 1)))
-      deleteStart--;
-    editable.delete(deleteStart, start);
+    apply_ironkeys_encrypt_edit_result(editable,
+        IronKeysDraftText.deleteBefore(editable.toString(),
+            _ironKeysEncryptText.getSelectionStart(),
+            _ironKeysEncryptText.getSelectionEnd()));
   }
 
   private void delete_ironkeys_encrypt_text_after_cursor()
   {
     Editable editable = _ironKeysEncryptText.getText();
-    int start = normalized_ironkeys_encrypt_selection_start(editable);
-    int end = normalized_ironkeys_encrypt_selection_end(editable);
-    if (start != end)
-    {
-      editable.delete(start, end);
-      return;
-    }
-    if (end >= editable.length())
-      return;
-    int deleteEnd = end + 1;
-    if (deleteEnd < editable.length() &&
-        Character.isHighSurrogate(editable.charAt(end)) &&
-        Character.isLowSurrogate(editable.charAt(deleteEnd)))
-      deleteEnd++;
-    editable.delete(end, deleteEnd);
+    apply_ironkeys_encrypt_edit_result(editable,
+        IronKeysDraftText.deleteAfter(editable.toString(),
+            _ironKeysEncryptText.getSelectionStart(),
+            _ironKeysEncryptText.getSelectionEnd()));
   }
 
-  private int normalized_ironkeys_encrypt_selection_start(Editable editable)
+  private void apply_ironkeys_encrypt_edit_result(Editable editable,
+      IronKeysDraftText.EditResult result)
   {
-    int start = _ironKeysEncryptText.getSelectionStart();
-    int end = _ironKeysEncryptText.getSelectionEnd();
-    if (start < 0 || end < 0)
-      return editable.length();
-    return Math.min(start, end);
-  }
-
-  private int normalized_ironkeys_encrypt_selection_end(Editable editable)
-  {
-    int start = _ironKeysEncryptText.getSelectionStart();
-    int end = _ironKeysEncryptText.getSelectionEnd();
-    if (start < 0 || end < 0)
-      return editable.length();
-    return Math.max(start, end);
+    if (!editable.toString().equals(result.text))
+      editable.replace(0, editable.length(), result.text);
+    _ironKeysEncryptText.setSelection(Math.min(result.selection,
+        editable.length()));
   }
 
   private void submit_ironkeys_encrypted_message()
   {
     if (_ironKeysEncrypting)
       return;
-    final String plaintext = trim_ironkeys_encrypt_text(_ironKeysDraftText);
+    final String plaintext = IronKeysDraftText.trim(_ironKeysDraftText);
     if (!_ironKeysDraftText.equals(plaintext))
     {
       _ironKeysDraftText = plaintext;
@@ -1223,28 +1188,6 @@ public class Keyboard2 extends InputMethodService
     set_ironkeys_decrypt_result("");
     if (_ironKeysDecryptText != null)
       _ironKeysDecryptText.setText("");
-  }
-
-  private static String trim_ironkeys_encrypt_text(String text)
-  {
-    return trim_ironkeys_encrypt_text(text,
-        IronKeysMessageCipher.MAX_PLAINTEXT_CHARS);
-  }
-
-  private static String trim_ironkeys_encrypt_text(String text, int maxChars)
-  {
-    if (text == null)
-      return "";
-    if (maxChars <= 0)
-      return "";
-    if (text.length() <= maxChars)
-      return text;
-    int end = Math.min(maxChars, text.length());
-    if (end > 0 && end < text.length() &&
-        Character.isHighSurrogate(text.charAt(end - 1)) &&
-        Character.isLowSurrogate(text.charAt(end)))
-      end--;
-    return text.substring(0, end);
   }
 
   @Override

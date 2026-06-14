@@ -93,6 +93,46 @@ public class IronKeysMessageCodecTest
         decoded.status);
   }
 
+  @Test
+  public void message_codec_rejects_legacy_message_blocks()
+      throws Exception
+  {
+    IronKeysPrivateKey sender = _generator.generate("Sender");
+    IronKeysPrivateKey recipient = _generator.generate("Recipient");
+
+    IronKeysMessageCodec.DecodeResult compact = _codec.decode(_cipher.encrypt(
+        "hello", sender, Arrays.asList(publicKey(recipient, 20))));
+    assertEquals(IronKeysMessageCodec.DecodeResult.Status.SUCCESS,
+        compact.status);
+    IronKeysMessageCodec.RecipientEnvelope envelope =
+        compact.message.recipients.get(0);
+    String legacyMessage =
+        "-----BEGIN IRONKEYS MESSAGE-----\n" +
+        "version: 1\n" +
+        "suite: HYBRID_P256_MLKEM768/AES-256-GCM/HKDF-SHA256\n" +
+        "sender-key-id: " + compact.message.senderKeyId + "\n" +
+        "sender-fingerprint: " + compact.message.senderFingerprint + "\n" +
+        "sender-ec-public-key: " +
+            compact.message.senderEcPublicKeyBase64 + "\n" +
+        "sender-mlkem-public-key: " +
+            compact.message.senderMlKemPublicKeyBase64 + "\n" +
+        "message-nonce: " +
+            IronKeysBase64.encode(compact.message.messageNonce) + "\n" +
+        "message-ciphertext: " +
+            IronKeysBase64.encode(compact.message.messageCiphertext) + "\n" +
+        "recipient: " + IronKeysBase64.encodeUrlString(
+            envelope.recipientKeyId) + "|" +
+            IronKeysBase64.encodeUrl(envelope.mlKemEncapsulation) + "|" +
+            IronKeysBase64.encodeUrl(envelope.wrapNonce) + "|" +
+            IronKeysBase64.encodeUrl(envelope.wrappedMessageKey) + "\n" +
+        "-----END IRONKEYS MESSAGE-----";
+
+    IronKeysMessageCodec.DecodeResult decoded = _codec.decode(legacyMessage);
+
+    assertEquals(IronKeysMessageCodec.DecodeResult.Status.INVALID,
+        decoded.status);
+  }
+
   private static IronKeysPublicKey publicKey(IronKeysPrivateKey privateKey,
       long addedAtEpochMillis)
   {

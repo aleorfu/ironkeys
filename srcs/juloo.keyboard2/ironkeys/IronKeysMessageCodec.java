@@ -3,20 +3,10 @@ package juloo.keyboard2.ironkeys;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class IronKeysMessageCodec
 {
-  static final String MESSAGE_SUITE =
-      "HYBRID_P256_MLKEM768/AES-256-GCM/HKDF-SHA256";
-
-  private static final String BEGIN_MARKER =
-      "-----BEGIN IRONKEYS MESSAGE-----";
-  private static final String END_MARKER =
-      "-----END IRONKEYS MESSAGE-----";
-  private static final String LEGACY_VERSION = "1";
   private static final String CURRENT_VERSION = "2";
   private static final String COMPACT_PREFIX = "IKM" + CURRENT_VERSION + ":";
   private static final int MAX_MESSAGE_BLOCK_LENGTH_CHARS = 2 * 1024 * 1024;
@@ -34,29 +24,7 @@ public final class IronKeysMessageCodec
     String compactPayload = extractCompactPayload(rawMessage);
     if (compactPayload != null)
       return decodeCompactPayload(compactPayload);
-
-    String block = extractLegacyBlock(rawMessage);
-    if (block == null || block.length() > MAX_MESSAGE_BLOCK_LENGTH_CHARS)
-      return DecodeResult.invalid();
-
-    Map<String, String> values = new LinkedHashMap<String, String>();
-    List<String> encodedRecipients = new ArrayList<String>();
-    String[] lines = block.split("\\r?\\n");
-    for (String line : lines)
-    {
-      Entry entry = toEntry(line.trim());
-      if (entry == null)
-        continue;
-      if ("recipient".equals(entry.key))
-        encodedRecipients.add(entry.value);
-      else
-        values.put(entry.key, entry.value);
-    }
-
-    if (!LEGACY_VERSION.equals(values.get("version")) ||
-        !MESSAGE_SUITE.equals(values.get("suite")))
-      return DecodeResult.invalid();
-    return decodeLegacyValues(values, encodedRecipients);
+    return DecodeResult.invalid();
   }
 
   private static byte[] encodeCompactPayload(IronKeysMessage message)
@@ -148,96 +116,6 @@ public final class IronKeysMessageCodec
     }
   }
 
-  private static DecodeResult decodeLegacyValues(Map<String, String> values,
-      List<String> encodedRecipients)
-  {
-    String senderKeyId = value(values, "sender-key-id").trim();
-    String senderFingerprint = value(values, "sender-fingerprint").trim();
-    String senderEcPublicKeyBase64 =
-        value(values, "sender-ec-public-key").trim();
-    String senderMlKemPublicKeyBase64 =
-        value(values, "sender-mlkem-public-key").trim();
-    byte[] messageNonce = decodeBase64(value(values, "message-nonce").trim());
-    byte[] messageCiphertext =
-        decodeBase64(value(values, "message-ciphertext").trim());
-    if (senderKeyId.isEmpty() || senderFingerprint.isEmpty() ||
-        senderEcPublicKeyBase64.isEmpty() ||
-        senderMlKemPublicKeyBase64.isEmpty() || messageNonce == null ||
-        messageCiphertext == null)
-      return DecodeResult.invalid();
-
-    IronKeysPublicKeyValidator.ValidationResult validation =
-        IronKeysPublicKeyValidator.validate(senderKeyId,
-            IronKeysPublicKeyValidator.SUPPORTED_ALGORITHM,
-            senderEcPublicKeyBase64, senderMlKemPublicKeyBase64,
-            senderFingerprint);
-    if (validation.status !=
-        IronKeysPublicKeyValidator.ValidationResult.Status.SUCCESS)
-      return DecodeResult.invalid();
-
-    List<RecipientEnvelope> recipients =
-        new ArrayList<RecipientEnvelope>();
-    for (String encodedRecipient : encodedRecipients)
-    {
-      RecipientEnvelope recipient = decodeLegacyRecipient(encodedRecipient);
-      if (recipient == null)
-        return DecodeResult.invalid();
-      recipients.add(recipient);
-    }
-    if (recipients.isEmpty())
-      return DecodeResult.invalid();
-
-    return DecodeResult.success(new IronKeysMessage(
-        validation.keyId,
-        validation.fingerprint,
-        validation.normalizedEcPublicKeyBase64,
-        validation.normalizedMlKemPublicKeyBase64,
-        messageNonce,
-        messageCiphertext,
-        recipients));
-  }
-
-  private static RecipientEnvelope decodeLegacyRecipient(String encodedRecipient)
-  {
-    try
-    {
-      String[] fields = encodedRecipient.split("\\|", -1);
-      if (fields.length != 4)
-        return null;
-      String recipientKeyId = IronKeysBase64.decodeUrlString(fields[0]);
-      byte[] mlKemEncapsulation = IronKeysBase64.decodeUrl(fields[1]);
-      byte[] wrapNonce = IronKeysBase64.decodeUrl(fields[2]);
-      byte[] wrappedMessageKey = IronKeysBase64.decodeUrl(fields[3]);
-      if (recipientKeyId.trim().isEmpty() || mlKemEncapsulation.length == 0 ||
-          wrapNonce.length == 0 || wrappedMessageKey.length == 0)
-        return null;
-      return new RecipientEnvelope(recipientKeyId, mlKemEncapsulation,
-          wrapNonce, wrappedMessageKey);
-    }
-    catch (IllegalArgumentException e)
-    {
-      return null;
-    }
-  }
-
-  private static byte[] decodeBase64(String value)
-  {
-    try
-    {
-      return IronKeysBase64.decode(value);
-    }
-    catch (IllegalArgumentException e)
-    {
-      return null;
-    }
-  }
-
-  private static String value(Map<String, String> values, String key)
-  {
-    String value = values.get(key);
-    return value == null ? "" : value;
-  }
-
   private static String extractCompactPayload(String rawMessage)
   {
     if (rawMessage == null)
@@ -260,32 +138,6 @@ public final class IronKeysMessageCodec
   {
     return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
         (c >= '0' && c <= '9') || c == '_' || c == '-';
-  }
-
-  private static String extractLegacyBlock(String rawMessage)
-  {
-    if (rawMessage == null)
-      return null;
-    int startIndex = rawMessage.indexOf(BEGIN_MARKER);
-    if (startIndex < 0)
-      return null;
-    int contentStart = startIndex + BEGIN_MARKER.length();
-    int endIndex = rawMessage.indexOf(END_MARKER, contentStart);
-    if (endIndex < 0)
-      return null;
-    return rawMessage.substring(contentStart, endIndex).trim();
-  }
-
-  private static Entry toEntry(String line)
-  {
-    if (line.isEmpty())
-      return null;
-    int delimiterIndex = line.indexOf(':');
-    if (delimiterIndex <= 0)
-      return null;
-    return new Entry(
-        line.substring(0, delimiterIndex).trim().toLowerCase(java.util.Locale.ROOT),
-        line.substring(delimiterIndex + 1).trim());
   }
 
   private static void writeCompactString(ByteArrayOutputStream output,
@@ -352,18 +204,6 @@ public final class IronKeysMessageCodec
     String readString()
     {
       return new String(readBytes(), StandardCharsets.UTF_8);
-    }
-  }
-
-  private static final class Entry
-  {
-    final String key;
-    final String value;
-
-    Entry(String key, String value)
-    {
-      this.key = key;
-      this.value = value;
     }
   }
 

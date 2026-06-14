@@ -75,6 +75,38 @@ public class IronKeysMessageDecryptorTest
         result.status);
   }
 
+  @Test
+  public void reports_decryption_failed_for_tampered_matching_message()
+      throws Exception
+  {
+    IronKeysPrivateKey sender = _generator.generate("Sender");
+    IronKeysPrivateKey recipient = _generator.generate("Recipient");
+    IronKeysMessageCodec codec = new IronKeysMessageCodec();
+
+    IronKeysMessageCodec.DecodeResult decoded = codec.decode(_cipher.encrypt(
+        "hello", sender, Arrays.asList(publicKey(recipient, 20))));
+    assertEquals(IronKeysMessageCodec.DecodeResult.Status.SUCCESS,
+        decoded.status);
+    byte[] tamperedCiphertext = decoded.message.messageCiphertext.clone();
+    tamperedCiphertext[0] ^= 0x01;
+    String tampered = codec.encode(new IronKeysMessageCodec.IronKeysMessage(
+        decoded.message.senderKeyId,
+        decoded.message.senderFingerprint,
+        decoded.message.senderEcPublicKeyBase64,
+        decoded.message.senderMlKemPublicKeyBase64,
+        decoded.message.messageNonce,
+        tamperedCiphertext,
+        decoded.message.recipients));
+
+    IronKeysMessageDecryptor.Result result =
+        _decryptor.decryptWithAnyPrivateKey(tampered,
+            Arrays.asList(recipient));
+
+    assertEquals(IronKeysMessageDecryptor.Status.DECRYPTION_FAILED,
+        result.status);
+    assertNotNull(result.exception);
+  }
+
   private static IronKeysPublicKey publicKey(IronKeysPrivateKey privateKey,
       long addedAtEpochMillis)
   {
