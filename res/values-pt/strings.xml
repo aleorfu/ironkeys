@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Teclado Unexpected</string>
-    <string name="app_name_debug">Teclado Unexpected (Depuração)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">Um teclado virtual leve para desenvolvedores.</string>
     <string name="store_description">A principal característica é que você pode digitar mais caracteres deslizando as teclas para os cantos.\n\nO app foi criado originalmente para desenvolvedores que usam Termux.\nAgora aperfeiçoado para o uso diário.\n\nEste aplicativo não contém anúncios e é Open Source.</string>
     <string name="pref_portrait">No modo retrato</string>

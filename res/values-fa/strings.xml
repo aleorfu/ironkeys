@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">صفحه کلید غیرمنتظره</string>
-    <string name="app_name_debug">صفحه کلید غیرمنتظره (دیباگ)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">صفحه‌کلید مجازی سبک و با حفظ حریم خصوصی برای اندروید.</string>
     <string name="store_description">ویژگی اصلی این است که می‌توانید با کشیدن کلید ها به سمت گوشه‌ها، کاراکتر های بیشتری تایپ کنید.\n\nاین برنامه در ابتدا برای برنامه‌نویسانی که از ترموکس (Termux) استفاده می‌کنند طراحی شده بود.\nاکنون برای استفاده روزمره عالی است.\n\nاین برنامه دارای هیچگونه تبلیغاتی نمیباشد و منبع باز محسوب میشود.</string>
     <string name="pref_portrait">در حالت عمودی</string>

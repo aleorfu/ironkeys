@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Unexpected Keyboard</string>
-    <string name="app_name_debug">Unexpected Keyboard (تصحيح الأخطاء)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">لوحة مفاتيح افتراضية خفيفة ومُراعية للخصوصية لنظام آندرويد.</string>
     <string name="store_description">الميزة الرئيسة هي أنّه يمكنك كتابة المزيد من الأحرف عن طريق تمرير المفاتيح نحو الزوايا.\n\nهذا التطبيق كان مُصممًا للمُبرمجين الذين يستخدمون طرفية Termux.\nالآن صار مثاليًا للاستخدام اليومي.</string>
     <string name="pref_portrait">في الوضع اللوحي</string>

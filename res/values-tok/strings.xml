@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Unexpected Keyboard</string>
-    <string name="app_name_debug">Unexpected Keyboard (o weka!!, akesi ilo nanpa!! )</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">supa nena ni li suli ala lon ilo, supa nena ni li sona e len, ni li lon ilo Android.</string>
     <string name="pref_portrait">lon nasin awen</string>
     <string name="pref_landscape">lon nasin lape</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">nItlh \'echlet jum</string>
-    <string name="app_name_debug">nItlh \'echlet jum (Qagh SamwI\')</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="pref_category_layout">tu\'qom</string>
     <string name="pref_layout_e_system">pat lo\'mey</string>
     <string name="pref_layout_e_custom">tu\'qom pargh</string>

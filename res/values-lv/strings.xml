@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Unexpected Keyboard</string>
-    <string name="app_name_debug">Unexpected Keyboard (atkļūdošana)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">Mazizmēra virtuālā Android tastatūra, kurai rūp privātums.</string>
     <string name="store_description">Tastatūras galvenā iespēja — viegli ievadīt jebkuru ASCII rakstzīmi ar pavilkšanu uz taustiņu stūriem.\n\nSākotnēji šī lietotne tika izstrādāta programmētājiem, kas izmanto Termux.\nTagad tā lieliski piemērota arī ikdienas lietošanai.\n\nLietotne nesatur reklāmas, un tās pirmkods ir pieejams visiem.</string>
     <string name="pref_portrait">Stateniskajā novietojumā</string>

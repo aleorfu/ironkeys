@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Unexpected Keyboard</string>
-    <string name="app_name_debug">Unexpected Keyboard (Debug)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">Android အတွက် သေးငယ်ပေါ့ပါးပြီးကိုယ်ရေးကိုယ်တာလုံခြုံမှုဆိုင်ရာအထူးဦးစား‌ပေးထားသည့်ကီးဘုတ်ဆော့ဝဲ.</string>
     <string name="store_description">အဓိကလုပ်‌‌ဆောင်မှုကတော့လျင်မြန်စွာစာလုံးရေများများရိုက်ရလွယ်ကူစေရန်ဖိဆွဲလိုက်ရုံဖြင့်အက္ခရာများကိုပြောင်းလဲရိုက်နိုင်ခြင်းပါပဲ။\n\nဒီအပ်ပလီကေးရှင်းရဲ့ကနဦးရည်ရွယ်ချက်ကတော့ ပရိုဂရမ်မာတွေ Termux မှာအသုံးပြုဖို့ဖန်တီးခဲ့ခြင်းဖြစ်ပါတယ်။\nအခုတော့ Termux သာမကပဲနိစ္စဓူ၀ကိစ္စများအတွက်အသုံးပြုနိုင်ပါပြီ။</string>
     <string name="pref_portrait">ဒေါင်လိုက်ပုံစံတွင်</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Unexpected Keyboard</string>
-    <string name="app_name_debug">Unexpected Keyboard (ดีบัก)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">คีย์บอร์ดสำหรับแอนดรอยด์ที่กินทรัพยากรน้อยและโฟกัสที่ความเป็นส่วนตัว</string>
     <string name="store_description">คีย์บอร์ดนี้สามารถเขียนตัวอักษรได้หลายตัวมากขึ้นโดยใช้การปัดคีย์ไปที่มุมต่างๆ\n\nคีย์บอร์ดนี้ถูกออกแบบมาเพื่อนักเขียนโปรแกรมที่ใช้เทอร์มักซ์ (Termux) \nแต่ตอนนี้เพอร์เฟ็กต์สำหรับคนทั่วไป</string>
     <string name="pref_portrait">ในแนวตั้ง</string>

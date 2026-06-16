@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Unexpected Keyboard</string>
-    <string name="app_name_debug">Unexpected Keyboard (تصحيح الأخطاء)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">كيبورد افتراضي خفيف الوزن ويراعي الخصوصية لآندرويد.</string>
     <string name="store_description">الميزة الرئيسية إنّه تقدر تكتب حروف أكثر عن طريق تمرير المفاتيح باتّجاه الزوايا\n\nهذا التطبيق أصلاً تسوّى علشان المبرمجين إلّي يستخدمون طرفية Termux.\nالآن صار تمام للاستخدام اليومي.</string>
     <string name="pref_portrait">وضع لوحي</string>

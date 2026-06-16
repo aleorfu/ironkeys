@@ -6,8 +6,8 @@
     <string name="pref_show_numpad_always">Alati</string>
     <string name="pref_number_row_title">Näita numbrite rida</string>
     <string name="pref_numpad_layout">Numbriklahvistiku paigutus</string>
-    <string name="app_name_release">Ootamatu klahvistik</string>
-    <string name="app_name_debug">Ootamatu klahvistik (silumisversioon)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">Väike ja privaatsusteadlik klahvistik Androidile.</string>
     <string name="pref_numpad_layout_e_high_first">Esmalt suuremad numbrid</string>
     <string name="pref_numpad_layout_e_low_first">Esmalt väiksemad numbrid</string>

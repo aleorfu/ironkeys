@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Unexpected Keyboard</string>
-    <string name="app_name_debug">Unexpected Keyboard (Debug)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">Lichtgewicht en privacy-bewust virtueel toetsenbord voor Android.</string>
     <string name="store_description">De belangrijkste functie is dat je meer tekens kunt typen door de toetsen naar de hoeken te vegen.\n\nDeze applicatie is oorspronkelijk ontworpen voor programmeurs die Termux gebruiken.\nNu perfect voor dagelijks gebruik.\n\nDeze applicatie bevat geen advertenties en is Open Source.</string>
     <string name="pref_portrait">In staande stand</string>

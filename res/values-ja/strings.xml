@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Unexpected Keyboard</string>
-    <string name="app_name_debug">Unexpected Keyboard (Debug)</string>
+    <string name="app_name_release">IronKeys</string>
+    <string name="app_name_debug">IronKeys (Debug)</string>
     <string name="short_description">軽量でプライバシーに配慮したAndroid用仮想キーボード</string>
     <string name="store_description">このキーボードは、キーの角をスワイプすることで様々なキーを入力できます。\n\nこのアプリは元々はTermuxでのプログラミング用に設計されました。\nしかし、今では普段の入力にも適しています。\nPCキーボードでの半角入力を再現しています。日本語入力、変換は出来ません。</string>
     <string name="pref_portrait">縦向き</string>
