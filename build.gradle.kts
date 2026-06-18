@@ -22,8 +22,8 @@ android {
     applicationId = "com.aleorfu.ironkeys"
     minSdk = 21
     targetSdk { version = release(36) }
-    versionCode = 55
-    versionName = "2.0.4"
+    versionCode = 1
+    versionName = "1.0.0"
   }
 
   sourceSets {
