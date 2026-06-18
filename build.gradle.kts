@@ -19,7 +19,7 @@ android {
   compileSdkVersion = "android-36"
 
   defaultConfig {
-    applicationId = "juloo.keyboard2"
+    applicationId = "com.aleorfu.ironkeys"
     minSdk = 21
     targetSdk { version = release(36) }
     versionCode = 55
