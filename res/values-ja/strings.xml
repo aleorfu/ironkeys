@@ -83,7 +83,7 @@
     <string name="key_action_send">送信</string>
     <string name="launcher_button_imesettings">キーボードを有効化</string>
     <string name="launcher_button_imepicker">キーボードを選択</string>
-    <string name="launcher_description">このアプリは仮想キーボードです。下のボタンからシステム設定を開いてUnexpected Keyboardを有効化してください。</string>
+    <string name="launcher_description">このアプリは仮想キーボードです。下のボタンからシステム設定を開いてIronKeysを有効化してください。</string>
     <string name="launcher_sourcecode">このアプリはオープンソースのフリーウェアです。GitHubでソースコードを入手したり、不具合を報告したりできます。</string>
     <string name="launcher_tryhere">有効化されている場合、ここでキーボードを試すことができます。</string>
     <string name="launcher_tryhere_hint">文字を入力</string>

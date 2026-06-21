@@ -111,7 +111,7 @@
     <string name="launcher_button_imesettings">Habilitar teclado</string>
     <string name="launcher_button_imepicker">Seleccionar método de entrada</string>
     <string name="launcher_button_dictionaries">Instalar diccionarios</string>
-    <string name="launcher_description">Esta aplicación es un teclado virtual. Presiona el botón de abajo para ir a Ajustes y habilitar Unexpected Keyboard.</string>
+    <string name="launcher_description">Esta aplicación es un teclado virtual. Presiona el botón de abajo para ir a Ajustes y habilitar IronKeys.</string>
     <string name="launcher_sourcecode">Esta es una aplicación gratuita, libre y de código abierto. Puedes encontrar el código fuente o reportar errores en GitHub.</string>
     <string name="launcher_tryhere">Tras habilitarlo, puedes probar el teclado en este campo:</string>
     <string name="launcher_tryhere_hint">Probar aquí</string>

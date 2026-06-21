@@ -111,7 +111,7 @@
     <string name="launcher_button_imesettings">啟用鍵盤</string>
     <string name="launcher_button_imepicker">選擇鍵盤</string>
     <string name="launcher_button_dictionaries">下載字典</string>
-    <string name="launcher_description">此應用程式是一個虛擬鍵盤。透過下面的按鈕前往系統設定啟用Unexpected-Keyboard。</string>
+    <string name="launcher_description">此應用程式是一個虛擬鍵盤。透過下面的按鈕前往系統設定啟用IronKeys。</string>
     <string name="launcher_sourcecode">這是一個免費且開源的應用程式。你可以在GitHub上找到原始碼，或是回報錯誤。</string>
     <string name="launcher_tryhere">啟用鍵盤後，你可以在這裡測試鍵盤：</string>
     <string name="launcher_tryhere_hint">試試看</string>

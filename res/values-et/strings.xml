@@ -111,7 +111,7 @@
     <string name="launcher_button_imesettings">Võta klahvistik kasutusele</string>
     <string name="launcher_button_imepicker">Vali klahvistik</string>
     <string name="launcher_button_dictionaries">Paigalda sõnastikke</string>
-    <string name="launcher_description">See rakendus on virtuaalne klahvistik. Klõpsates järgneval lingil ava süsteemi seadistused ja lülita „Ootamatu klahvistik“ sisse.</string>
+    <string name="launcher_description">See rakendus on virtuaalne klahvistik. Klõpsates järgneval lingil ava süsteemi seadistused ja lülita IronKeys sisse.</string>
     <string name="launcher_sourcecode">See rakendus on vaba, tasuta ja avatud lähtekoodiga, mille leiad GitHubist. Samas saad ka koostada veateateid.</string>
     <string name="launcher_tryhere">Peale sisselülitamist saad klahvistikku siin proovida:</string>
     <string name="launcher_tryhere_hint">Proovi siin</string>

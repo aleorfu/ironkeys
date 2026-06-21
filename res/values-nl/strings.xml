@@ -84,7 +84,7 @@
     <string name="key_action_send">Stuur</string>
     <string name="launcher_button_imesettings">Toetsenbord inschakelen</string>
     <string name="launcher_button_imepicker">Selecteer toetsenbord</string>
-    <string name="launcher_description">Deze toepassing is een virtueel toetsenbord. Ga naar de systeeminstellingen door op onderstaande knop te klikken en schakel Unexpected-Keyboard in.</string>
+    <string name="launcher_description">Deze toepassing is een virtueel toetsenbord. Ga naar de systeeminstellingen door op onderstaande knop te klikken en schakel IronKeys in.</string>
     <string name="launcher_sourcecode">Dit is een gratis en open source toepassing. Je kunt de broncode vinden of bugs rapporteren op GitHub.</string>
     <string name="launcher_tryhere">Na inschakelen kun je het toetsenbord hier proberen:</string>
     <string name="launcher_tryhere_hint">Probeer hier</string>

@@ -84,7 +84,7 @@
     <string name="key_action_send">إرسال</string>
     <string name="launcher_button_imesettings">مكّن لوحة المفاتيح</string>
     <string name="launcher_button_imepicker">حدّد لوحة المفاتيح</string>
-    <string name="launcher_description">هذا التطبيق عبارة عن لوحة مفاتيح افتراضية. انتقل إلى إعدادات النظام بالنقر على الزر أدناه ومكّن Unexpected Keyboard.</string>
+    <string name="launcher_description">هذا التطبيق عبارة عن لوحة مفاتيح افتراضية. انتقل إلى إعدادات النظام بالنقر على الزر أدناه ومكّن IronKeys.</string>
     <string name="launcher_sourcecode">هذا التطبيق مجاني ومفتوح المصدر. يمكنك إيجاد كود المصدر أو الإبلاغ عن الأخطاء على GitHub.</string>
     <string name="launcher_tryhere">بعد التمكين، يمكنك تجربة لوحة المفاتيح هنا:</string>
     <string name="launcher_tryhere_hint">جرّب هنا</string>

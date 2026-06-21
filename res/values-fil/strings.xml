@@ -84,7 +84,7 @@
     <string name="key_action_send">Send</string>
     <string name="launcher_button_imesettings">Paganahin ang keyboard</string>
     <string name="launcher_button_imepicker">Pumili ng keyboard</string>
-    <string name="launcher_description">Itong application ay isang virtual keyboard. Pindutin ang button sa ilalim nang pumunta sa system settings at buksan ang Unexpected-Keyboard.</string>
+    <string name="launcher_description">Itong application ay isang virtual keyboard. Pindutin ang button sa ilalim nang pumunta sa system settings at buksan ang IronKeys.</string>
     <string name="launcher_sourcecode">Libre at open source ito na application. Maaaring makita ang source code o makapag-report ng bug sa Github.</string>
     <string name="launcher_tryhere">Pagkatapos buksan, masusubukan mo ang keyboard dito:</string>
     <string name="launcher_tryhere_hint">Subukan dito</string>

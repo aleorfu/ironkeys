@@ -84,7 +84,7 @@
     <string name="key_action_send">পাঠান</string>
     <string name="launcher_button_imesettings">কিবোর্ড সক্রিয় করুন</string>
     <string name="launcher_button_imepicker">কিবোর্ড নির্বাচন করুন</string>
-    <string name="launcher_description">এই অ্যাপ্লিকেশনটি একটি ভার্চুয়াল কীবোর্ড। নিচের বোতামে ক্লিক করে সিস্টেম সেটিংসে যান এবং ‘Unexpected-Keyboard’ সক্রিয় করুন।</string>
+    <string name="launcher_description">এই অ্যাপ্লিকেশনটি একটি ভার্চুয়াল কীবোর্ড। নিচের বোতামে ক্লিক করে সিস্টেম সেটিংসে যান এবং ‘IronKeys’ সক্রিয় করুন।</string>
     <string name="launcher_sourcecode">এটি একটি ফ্রি এবং ওপেন সোর্স অ্যাপ্লিকেশন। আপনি গিটহাবে এর সোর্স কোড খুঁজে পেতে পারেন অথবা বাগ রিপোর্ট করতে পারেন।</string>
     <string name="launcher_tryhere">সক্রিয় করার পর, আপনি এখানে কীবোর্ডটি ব্যবহার করে দেখতে পারেন:</string>
     <string name="launcher_tryhere_hint">এখানে চেষ্টা করুন</string>

@@ -84,7 +84,7 @@
     <string name="key_action_send">Envia</string>
     <string name="launcher_button_imesettings">Activa el teclat</string>
     <string name="launcher_button_imepicker">Selecciona el teclat</string>
-    <string name="launcher_description">Aquesta aplicació és un teclat virtual. Ves a la configuració del sistema fent clic al botó de sota i activa Unexpected Keyboard.</string>
+    <string name="launcher_description">Aquesta aplicació és un teclat virtual. Ves a la configuració del sistema fent clic al botó de sota i activa IronKeys.</string>
     <string name="launcher_sourcecode">Aquesta és una aplicació de codi obert. Pots trobar el codi font o informar d\'errors a GitHub.</string>
     <string name="launcher_tryhere">Després d\'activar-lo, pots provar el teclat aquí:</string>
     <string name="launcher_tryhere_hint">Prova\'l aquí</string>

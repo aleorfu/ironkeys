@@ -84,7 +84,7 @@
     <string name="key_action_send">Invia</string>
     <string name="launcher_button_imesettings">Abilita tastiera</string>
     <string name="launcher_button_imepicker">Seleziona tastiera</string>
-    <string name="launcher_description">Questa applicazione è una tastiera virtuale. Vai alle impostazioni di sistema cliccando sul pulsante qui sotto e abilita Unexpected-Keyboard.</string>
+    <string name="launcher_description">Questa applicazione è una tastiera virtuale. Vai alle impostazioni di sistema cliccando sul pulsante qui sotto e abilita IronKeys.</string>
     <string name="launcher_sourcecode">Questa è un\'applicazione gratuita e open source. Puoi trovare il codice sorgente o segnalare bug su GitHub.</string>
     <string name="launcher_tryhere">Dopo averla abilitata, puoi provare la tastiera qui:</string>
     <string name="launcher_tryhere_hint">Prova qui</string>

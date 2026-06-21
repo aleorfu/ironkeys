@@ -84,7 +84,7 @@
     <string name="key_action_send">إرسال</string>
     <string name="launcher_button_imesettings">شغّل الكيبورد</string>
     <string name="launcher_button_imepicker">اختار الكيبورد</string>
-    <string name="launcher_description">هذا التطبيق كيبورد افتراضي. روح لإعدادات النظام عن طريق الضغط على الزر إلّي تحت وشغّل Unexpected Keyboard.</string>
+    <string name="launcher_description">هذا التطبيق كيبورد افتراضي. روح لإعدادات النظام عن طريق الضغط على الزر إلّي تحت وشغّل IronKeys.</string>
     <string name="launcher_sourcecode">هذا تطبيق مجاني ومفتوح المصدر. تقدر تلاقي كود المصدر أو الإبلاغ عن أخطاء على GitHub.</string>
     <string name="launcher_tryhere">بعد التشغيل، تقدر تجرّب الكيبورد هنا:</string>
     <string name="launcher_tryhere_hint">جرّب هنا</string>

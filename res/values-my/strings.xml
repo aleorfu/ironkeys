@@ -84,7 +84,7 @@
     <string name="key_action_send">ပို့လွှတ်</string>
     <string name="launcher_button_imesettings">ကီးဘုတ်အသုံးပြုခွင့်ဖွင့်ပါ</string>
     <string name="launcher_button_imepicker">ကီးဘုတ်ရွေးချယ်ရန်</string>
-    <string name="launcher_description">ဤအပ်ပလီကေးရှင်းသည် virtual ကီးဘုတ်ဖြစ်သည်။ ဖုန်းစနစ်ဆက်တင်ထဲသို့သွား၍အောက်တွင်ရှိသောခလုတ်ကိုနှိပ်ကာ Unexpected Keyboard ကိုအသုံးပြုခွင့်ဖွင့်လိုက်ပါ။</string>
+    <string name="launcher_description">ဤအပ်ပလီကေးရှင်းသည် virtual ကီးဘုတ်ဖြစ်သည်။ ဖုန်းစနစ်ဆက်တင်ထဲသို့သွား၍အောက်တွင်ရှိသောခလုတ်ကိုနှိပ်ကာ IronKeys ကိုအသုံးပြုခွင့်ဖွင့်လိုက်ပါ။</string>
     <string name="launcher_sourcecode">အခမဲ့ရယူနိုင်ပြီး၊ မူရင်းကုတ်ပါ ပွင့်လင်းမြင်သာလွတ်လပ်စွာမျှဝေထားသည့်အပ်ပလီကေးရှင်းဖြစ်သည်။သင်ဟာ မူရင်းကုတ်ရယူလို၍ဖြစ်စေ၊ အမှားပြစ်ချက်များရှာတွေ့၍ဖြစ်စေ GitHub ပေါ်မှာရှာတွေ့နိုင်ပါတယ်။</string>
     <string name="launcher_tryhere">အသုံးပြုခွင့်ဖွင့်ပြီးတဲ့အခါ ကီးဘုတ်ကိုဒီနေရာမှာစမ်းသုံးကြည့်နိုင်ပါတယ်:</string>
     <string name="launcher_tryhere_hint">ဒီမှာစမ်းကြည့်နော်</string>

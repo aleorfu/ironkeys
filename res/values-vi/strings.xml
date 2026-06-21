@@ -84,7 +84,7 @@
     <string name="key_action_send">Gửi</string>
     <string name="launcher_button_imesettings">Cấp phép bật bàn phím</string>
     <string name="launcher_button_imepicker">Chọn app bàn phím</string>
-    <string name="launcher_description">Ứng dụng này là một bàn phím ảo. Hãy mở cài đặt hệ thống bằng cách nhấn phím bên dưới và bật Unexpected-Keyboard.</string>
+    <string name="launcher_description">Ứng dụng này là một bàn phím ảo. Hãy mở cài đặt hệ thống bằng cách nhấn phím bên dưới và bật IronKeys.</string>
     <string name="launcher_sourcecode">Đây là một ứng dụng mã nguồn mở và miễn phí. Bạn có thể tìm đọc mã nguồn hoặc báo cáo lỗi tại Github.</string>
     <string name="launcher_tryhere">Sau khi đã cấp phép, bạn có thể thử bàn phím ở đây:</string>
     <string name="launcher_tryhere_hint">Nhấn vào để thử</string>

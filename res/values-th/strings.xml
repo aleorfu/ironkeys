@@ -84,7 +84,7 @@
     <string name="key_action_send">ส่ง</string>
     <string name="launcher_button_imesettings">เปิดใช้งานคีย์บอร์ด</string>
     <string name="launcher_button_imepicker">เลือกคีย์บอร์ด</string>
-    <string name="launcher_description">แอพนี้เป็นแอพคีย์บอร์ดบนหน้าจอ ไปที่การตั้งค่าด้วยการกดปุ่มข้างล่างแล้วเปิดใช้งาน Unexpected Keyboard</string>
+    <string name="launcher_description">แอพนี้เป็นแอพคีย์บอร์ดบนหน้าจอ ไปที่การตั้งค่าด้วยการกดปุ่มข้างล่างแล้วเปิดใช้งาน IronKeys</string>
     <string name="launcher_sourcecode">แอพนี้เป็นแอพฟรีและโอเพ่นซอร์ส</string>
     <string name="launcher_tryhere">หลังจากเปิดใช้งานแล้ว สามารถลองได้ตรงนี้</string>
     <string name="launcher_tryhere_hint">ลองดู!!</string>
