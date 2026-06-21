@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.io.FileOutputStream
 
 plugins {
@@ -22,8 +21,8 @@ android {
     applicationId = "com.aleorfu.ironkeys"
     minSdk = 21
     targetSdk { version = release(36) }
-    versionCode = 1
-    versionName = "1.0.0"
+    versionCode = 2
+    versionName = "1.0.1"
   }
 
   sourceSets {

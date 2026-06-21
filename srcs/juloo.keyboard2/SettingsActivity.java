@@ -931,6 +931,7 @@ public class SettingsActivity extends PreferenceActivity
       }
       catch (final Exception e)
       {
+        Logs.exn(threadName + " failed", e);
         runIronKeysUiUpdate(() -> failureHandler.onFailure(e));
       }
     }, threadName).start();
